@@ -1,0 +1,28 @@
+{
+  "name": "journal-mode",
+  "module": "main.ts",
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.0.1",
+    "@playwright/test": "^1.40.0",
+    "bun-types": "^0.5.0",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.54.0",
+    "playwright-bdd": "^5.5.0",
+    "typescript": "^5.3.2"
+  },
+  "dependencies": {
+    "@google-cloud/bigquery": "^7.3.0",
+    "@google-cloud/firestore": "^7.1.0",
+    "@notionhq/client": "^2.2.13",
+    "axios": "^1.6.2",
+    "firebase-admin": "^11.11.0",
+    "firebase-functions": "^4.5.0",
+    "install": "^0.13.0",
+    "uuid": "^9.0.1"
+  },
+  "scripts": {
+    "test:bdd:gen": "bddgen -c tests/features/playwright.config.ts",
+    "test:bdd:run": "playwright test -c tests/features/playwright.config.ts",
+    "test:bdd": "bun run test:bdd:gen && bun run test:bdd:run"
+  }
+}

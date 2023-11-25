@@ -1,0 +1,153 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Journal in Notion",
+        "description": "Fetch Journal information from Notion",
+        "version": "v1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://europe-west2-journal-mode-prod.cloudfunctions.net"
+        }
+    ],
+    "paths": {
+        "/http-request-function": {
+            "post": {
+                "summary": "Fetch Journal Entries",
+                "operationId": "postHttpRequestFunction",
+                "description": "This endpoint fetches journal entries from Notion.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {},
+                                "required": []
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "A list of journal entries",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "journals": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "description": "The date of the journal entry in YYYY-MM-DD format."
+                                                    },
+                                                    "summary": {
+                                                        "type": "string",
+                                                        "description": "The summary of the journal entry."
+                                                    },
+                                                    "transcription": {
+                                                        "type": "string",
+                                                        "description": "The full transcription the journal entry."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/write_journal": {
+            "post": {
+                "summary": "Write a new Journal Entry",
+                "operationId": "writeJournalEntry",
+                "description": "This endpoint writes the summary for the current journal exercise.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "The date of today in YYYY-MM-DD format. Journal Mode will always populate this field with the current date."
+                                    },
+                                    "summary": {
+                                        "type": "string",
+                                        "description": "The summary of the journal entry. Journal Mode will always populate this field with the output of the summary command."
+                                    },
+                                    "transcription": {
+                                        "type": "string",
+                                        "description": "The full transcription the journal entry, e.g. this chat. Journal Mode will always populate this field with the full chat."
+                                    }
+                                },
+                                "required": [
+                                    "date",
+                                    "summary",
+                                    "transcription"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Confirmation of success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Error": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
