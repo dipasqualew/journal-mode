@@ -2,7 +2,7 @@
 
 # Step 1: Compile TypeScript
 echo "Compiling TypeScript..."
-bun run tsc --build
+bun x tsc --build
 
 # Step 2: Create build directory
 BUILD_DIR="./.cache/build"
